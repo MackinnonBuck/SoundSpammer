@@ -32,7 +32,7 @@
             this.soundPathLabel = new System.Windows.Forms.Label();
             this.soundPathTextBox = new System.Windows.Forms.TextBox();
             this.soundPathButton = new System.Windows.Forms.Button();
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.soundPathOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.okButton = new System.Windows.Forms.Button();
             this.hotkeyLabel = new System.Windows.Forms.Label();
             this.hotkeyTextBox = new System.Windows.Forms.TextBox();
@@ -41,15 +41,17 @@
             this.buttonTextLabel = new System.Windows.Forms.Label();
             this.buttonTextBox = new System.Windows.Forms.TextBox();
             this.playbackGroupBox = new System.Windows.Forms.GroupBox();
-            this.aestheticsGroupBox = new System.Windows.Forms.GroupBox();
             this.repeatModeGroupBox = new System.Windows.Forms.GroupBox();
-            this.overlapRadioButton = new System.Windows.Forms.RadioButton();
-            this.startOverRadioButton = new System.Windows.Forms.RadioButton();
             this.cancelPlaybackRadioButton = new System.Windows.Forms.RadioButton();
+            this.startOverRadioButton = new System.Windows.Forms.RadioButton();
+            this.overlapRadioButton = new System.Windows.Forms.RadioButton();
+            this.aestheticsGroupBox = new System.Windows.Forms.GroupBox();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.spamOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.volumeTrackBar)).BeginInit();
             this.playbackGroupBox.SuspendLayout();
-            this.aestheticsGroupBox.SuspendLayout();
             this.repeatModeGroupBox.SuspendLayout();
+            this.aestheticsGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // soundPathLabel
@@ -81,6 +83,10 @@
             this.soundPathButton.Text = "...";
             this.soundPathButton.UseVisualStyleBackColor = true;
             this.soundPathButton.Click += new System.EventHandler(this.soundPathButton_Click);
+            // 
+            // soundPathOpenFileDialog
+            // 
+            this.soundPathOpenFileDialog.Filter = "Audio Files (*.mp3, *.wav, *.ogg)|*.mp3;*.wav;*.ogg";
             // 
             // okButton
             // 
@@ -174,19 +180,6 @@
             this.playbackGroupBox.TabStop = false;
             this.playbackGroupBox.Text = "Playback";
             // 
-            // aestheticsGroupBox
-            // 
-            this.aestheticsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.aestheticsGroupBox.Controls.Add(this.buttonTextBox);
-            this.aestheticsGroupBox.Controls.Add(this.buttonTextLabel);
-            this.aestheticsGroupBox.Location = new System.Drawing.Point(12, 238);
-            this.aestheticsGroupBox.Name = "aestheticsGroupBox";
-            this.aestheticsGroupBox.Size = new System.Drawing.Size(256, 45);
-            this.aestheticsGroupBox.TabIndex = 11;
-            this.aestheticsGroupBox.TabStop = false;
-            this.aestheticsGroupBox.Text = "Aesthetics";
-            // 
             // repeatModeGroupBox
             // 
             this.repeatModeGroupBox.Controls.Add(this.cancelPlaybackRadioButton);
@@ -198,6 +191,26 @@
             this.repeatModeGroupBox.TabIndex = 8;
             this.repeatModeGroupBox.TabStop = false;
             this.repeatModeGroupBox.Text = "Repeat Mode";
+            // 
+            // cancelPlaybackRadioButton
+            // 
+            this.cancelPlaybackRadioButton.AutoSize = true;
+            this.cancelPlaybackRadioButton.Location = new System.Drawing.Point(6, 65);
+            this.cancelPlaybackRadioButton.Name = "cancelPlaybackRadioButton";
+            this.cancelPlaybackRadioButton.Size = new System.Drawing.Size(105, 17);
+            this.cancelPlaybackRadioButton.TabIndex = 2;
+            this.cancelPlaybackRadioButton.Text = "Cancel Playback";
+            this.cancelPlaybackRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // startOverRadioButton
+            // 
+            this.startOverRadioButton.AutoSize = true;
+            this.startOverRadioButton.Location = new System.Drawing.Point(6, 42);
+            this.startOverRadioButton.Name = "startOverRadioButton";
+            this.startOverRadioButton.Size = new System.Drawing.Size(73, 17);
+            this.startOverRadioButton.TabIndex = 1;
+            this.startOverRadioButton.Text = "Start Over";
+            this.startOverRadioButton.UseVisualStyleBackColor = true;
             // 
             // overlapRadioButton
             // 
@@ -211,25 +224,27 @@
             this.overlapRadioButton.Text = "Overlap";
             this.overlapRadioButton.UseVisualStyleBackColor = true;
             // 
-            // startOverRadioButton
+            // aestheticsGroupBox
             // 
-            this.startOverRadioButton.AutoSize = true;
-            this.startOverRadioButton.Location = new System.Drawing.Point(6, 42);
-            this.startOverRadioButton.Name = "startOverRadioButton";
-            this.startOverRadioButton.Size = new System.Drawing.Size(73, 17);
-            this.startOverRadioButton.TabIndex = 1;
-            this.startOverRadioButton.Text = "Start Over";
-            this.startOverRadioButton.UseVisualStyleBackColor = true;
+            this.aestheticsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.aestheticsGroupBox.Controls.Add(this.buttonTextBox);
+            this.aestheticsGroupBox.Controls.Add(this.buttonTextLabel);
+            this.aestheticsGroupBox.Location = new System.Drawing.Point(12, 238);
+            this.aestheticsGroupBox.Name = "aestheticsGroupBox";
+            this.aestheticsGroupBox.Size = new System.Drawing.Size(256, 45);
+            this.aestheticsGroupBox.TabIndex = 11;
+            this.aestheticsGroupBox.TabStop = false;
+            this.aestheticsGroupBox.Text = "Aesthetics";
             // 
-            // cancelPlaybackRadioButton
+            // saveFileDialog
             // 
-            this.cancelPlaybackRadioButton.AutoSize = true;
-            this.cancelPlaybackRadioButton.Location = new System.Drawing.Point(6, 65);
-            this.cancelPlaybackRadioButton.Name = "cancelPlaybackRadioButton";
-            this.cancelPlaybackRadioButton.Size = new System.Drawing.Size(105, 17);
-            this.cancelPlaybackRadioButton.TabIndex = 2;
-            this.cancelPlaybackRadioButton.Text = "Cancel Playback";
-            this.cancelPlaybackRadioButton.UseVisualStyleBackColor = true;
+            this.saveFileDialog.Filter = "Spam Files|*.spam";
+            this.saveFileDialog.Title = "Save Spam File";
+            // 
+            // spamOpenFileDialog
+            // 
+            this.spamOpenFileDialog.Filter = "Spam Files|*.spam";
             // 
             // PropertiesForm
             // 
@@ -248,10 +263,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.volumeTrackBar)).EndInit();
             this.playbackGroupBox.ResumeLayout(false);
             this.playbackGroupBox.PerformLayout();
-            this.aestheticsGroupBox.ResumeLayout(false);
-            this.aestheticsGroupBox.PerformLayout();
             this.repeatModeGroupBox.ResumeLayout(false);
             this.repeatModeGroupBox.PerformLayout();
+            this.aestheticsGroupBox.ResumeLayout(false);
+            this.aestheticsGroupBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -261,7 +276,7 @@
         private System.Windows.Forms.Label soundPathLabel;
         private System.Windows.Forms.TextBox soundPathTextBox;
         private System.Windows.Forms.Button soundPathButton;
-        private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.OpenFileDialog soundPathOpenFileDialog;
         private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.Label hotkeyLabel;
         private System.Windows.Forms.TextBox hotkeyTextBox;
@@ -275,5 +290,7 @@
         private System.Windows.Forms.RadioButton cancelPlaybackRadioButton;
         private System.Windows.Forms.RadioButton startOverRadioButton;
         private System.Windows.Forms.RadioButton overlapRadioButton;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        private System.Windows.Forms.OpenFileDialog spamOpenFileDialog;
     }
 }

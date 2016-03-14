@@ -54,16 +54,31 @@ namespace SoundSpammer
         }
 
         /// <summary>
+        /// Gets or sets the value of the spam label.
+        /// </summary>
+        public string SpamLabel
+        {
+            get
+            {
+                return spamLabel.Text;
+            }
+            set
+            {
+                spamLabel.Text = value;
+            }
+        }
+
+        /// <summary>
         /// Initializes this instance.
         /// </summary>
         public MainWindow()
         {
             InitializeComponent();
-
+            
             spamLabel.Parent = buttonPictureBox;
             spamLabel.Dock = DockStyle.Fill;
 
-            propertiesForm = new PropertiesForm();
+            propertiesForm = new PropertiesForm(this);
 
             globalHook = Hook.GlobalEvents();
             globalHook.KeyDown += GlobalKeyDown;
@@ -82,7 +97,7 @@ namespace SoundSpammer
             MediaPlayer mediaPlayer = new MediaPlayer();
             mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
 
-            mediaPlayer.Open(new System.Uri(propertiesForm.SoundFilePath));
+            mediaPlayer.Open(new Uri(propertiesForm.SoundFilePath));
             mediaPlayer.Volume = propertiesForm.Volume;
             mediaPlayer.Play();
 
@@ -211,9 +226,40 @@ namespace SoundSpammer
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void newInstanceToolStripMenuItem_Click(object sender, EventArgs e)
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Process.Start(new ProcessStartInfo(Application.ExecutablePath));
+        }
+
+        /// <summary>
+        /// Opens an existing Spam file.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StopAllSounds();
+            propertiesForm.ReadProperties();
+        }
+
+        /// <summary>
+        /// Saves the application's properties specified in the properties window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            propertiesForm.WriteProperties();
+        }
+
+        /// <summary>
+        /// Shows the save dialog and saves the application's properties specified in the properties window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            propertiesForm.WriteProperties(true);
         }
 
         /// <summary>
