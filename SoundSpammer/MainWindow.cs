@@ -69,6 +69,28 @@ namespace SoundSpammer
         }
 
         /// <summary>
+        /// Stores the loaded filename.
+        /// </summary>
+        private string _soundFilePath;
+
+        /// <summary>
+        /// Used for getting and setting the file name loaded and making it visible accross all components.
+        /// </summary>
+        public string SoundFilePath
+        {
+            get
+            {
+                return _soundFilePath;
+            }
+            set
+            {
+                _soundFilePath = value;
+                soundPathLabel.Text = value;
+                soundPathToolTip.SetToolTip(soundPathLabel, value);
+            }
+        }
+
+        /// <summary>
         /// Initializes this instance.
         /// </summary>
         public MainWindow()
@@ -228,7 +250,7 @@ namespace SoundSpammer
         /// <param name="e"></param>
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start(new ProcessStartInfo(Application.ExecutablePath));
+            new MainWindow().Show();
         }
 
         /// <summary>
@@ -269,7 +291,8 @@ namespace SoundSpammer
         /// <param name="e"></param>
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            StopAllSounds();
+            Close();
         }
 
         /// <summary>
@@ -285,11 +308,7 @@ namespace SoundSpammer
             spamLabel.Text = propertiesForm.ButtonText;
 
             if (propertiesForm.SoundFilePath.Length > 0)
-            {
-                soundPathLabel.Text = propertiesForm.SoundFilePath;
-                soundPathToolTip.SetToolTip(soundPathLabel, propertiesForm.SoundFilePath);
-                Text = propertiesForm.SoundFileName;
-            }
+                SoundFilePath = propertiesForm.SoundFilePath;
         }
 
         /// <summary>

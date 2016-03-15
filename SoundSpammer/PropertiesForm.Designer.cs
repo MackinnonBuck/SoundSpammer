@@ -139,7 +139,7 @@
             this.volumeTrackBar.Name = "volumeTrackBar";
             this.volumeTrackBar.Size = new System.Drawing.Size(193, 45);
             this.volumeTrackBar.TabIndex = 7;
-            this.volumeTrackBar.Value = 10;
+            this.volumeTrackBar.Value = 20;
             this.volumeTrackBar.ValueChanged += new System.EventHandler(this.volumeTrackBar_ValueChanged);
             // 
             // buttonTextLabel

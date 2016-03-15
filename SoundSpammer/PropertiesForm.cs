@@ -78,7 +78,7 @@ namespace SoundSpammer
         {
             get
             {
-                return volumeTrackBar.Value / 100.0;
+                return (float)volumeTrackBar.Value / volumeTrackBar.Maximum;
             }
         }
 
@@ -130,12 +130,24 @@ namespace SoundSpammer
         }
 
         /// <summary>
+        /// Stores the value of the save path.
+        /// </summary>
+        private string _savePath;
+
+        /// <summary>
         /// The path to which properties are saved.
         /// </summary>
         public string SavePath
         {
-            get;
-            private set;
+            get
+            {
+                return _savePath;
+            }
+            private set
+            {
+                _savePath = value;
+                parentWindow.Text = new FileInfo(value).Name;
+            }
         }
 
         /// <summary>
@@ -163,6 +175,7 @@ namespace SoundSpammer
                 return false;
 
             SavePath = saveFileDialog.FileName;
+            parentWindow.SoundFilePath = saveFileDialog.FileName;
 
             return true;
         }
@@ -180,8 +193,8 @@ namespace SoundSpammer
                 int equalsIndex = currentLine.IndexOf('=');
 
                 yield return new KeyValuePair<string, string>(
-                    currentLine.Substring(0, currentLine.IndexOf('=')),
-                    currentLine.Substring(currentLine.IndexOf('=') + 1));
+                    currentLine.Substring(0, equalsIndex),
+                    currentLine.Substring(equalsIndex + 1));
             }
         }
 
@@ -242,7 +255,10 @@ namespace SoundSpammer
                 }
             }
 
+            propertiesReader.Close();
+
             SavePath = spamOpenFileDialog.FileName;
+            parentWindow.SoundFilePath = spamOpenFileDialog.FileName;
         }
 
         /// <summary>
@@ -275,7 +291,7 @@ namespace SoundSpammer
         /// <param name="e"></param>
         private void volumeTrackBar_ValueChanged(object sender, EventArgs e)
         {
-            volumeLabel.Text = "Volume:\n" + volumeTrackBar.Value.ToString() + "0%";
+            volumeLabel.Text = "Volume:\n" + ((float)volumeTrackBar.Value / volumeTrackBar.Maximum * 100.0f) + "%";
         }
     }
 }
