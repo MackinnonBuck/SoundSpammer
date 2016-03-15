@@ -250,7 +250,7 @@ namespace SoundSpammer
         /// <param name="e"></param>
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new MainWindow().Show();
+            Program.AddWindow();
         }
 
         /// <summary>
@@ -262,6 +262,17 @@ namespace SoundSpammer
         {
             StopAllSounds();
             propertiesForm.ReadProperties();
+        }
+
+        /// <summary>
+        /// Opens a new Spam file in a new form.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void openAsNewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MainWindow newWindow = Program.AddWindow();
+            newWindow.propertiesForm.ReadProperties();
         }
 
         /// <summary>
@@ -285,14 +296,23 @@ namespace SoundSpammer
         }
 
         /// <summary>
-        /// Exits the application when the Exit menu item is selected.
+        /// Closes the form when the Close menu item is selected.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            StopAllSounds();
             Close();
+        }
+
+        /// <summary>
+        /// Closes all active forms and exits the application.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void closeAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
 
         /// <summary>
@@ -332,6 +352,16 @@ namespace SoundSpammer
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show("... this is what happens when you get bored and want to troll people on Rocket League.\n\nMade by Mackinnon Buck.", "Well...");
+        }
+
+        /// <summary>
+        /// Stops playing any active sounds when the form is closed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            StopAllSounds();
         }
     }
 }
