@@ -146,6 +146,7 @@ namespace SoundSpammer
             private set
             {
                 _savePath = value;
+                parentWindow.SoundFilePath = value;
                 parentWindow.Text = new FileInfo(value).Name;
             }
         }
@@ -181,28 +182,10 @@ namespace SoundSpammer
         }
 
         /// <summary>
-        /// Used for iterating through properties of a Spam file.
-        /// </summary>
-        /// <param name="propertyReader"></param>
-        /// <returns></returns>
-        public IEnumerable<KeyValuePair<string, string>> ParseProperties(StreamReader propertyReader)
-        {
-            while (!propertyReader.EndOfStream)
-            {
-                string currentLine = propertyReader.ReadLine();
-                int equalsIndex = currentLine.IndexOf('=');
-
-                yield return new KeyValuePair<string, string>(
-                    currentLine.Substring(0, equalsIndex),
-                    currentLine.Substring(equalsIndex + 1));
-            }
-        }
-
-        /// <summary>
         /// Writes the current properties to the user-selected file.
         /// </summary>
         /// <param name="mustRequestSavePath"></param>
-        public void WriteProperties(bool mustRequestSavePath = false)
+        public void SaveProperties(bool mustRequestSavePath = false)
         {
             if (SavePath == null || mustRequestSavePath)
                 if (!RequestSavePath())
@@ -224,14 +207,30 @@ namespace SoundSpammer
         }
 
         /// <summary>
-        /// Shows the spamOpenFileDialog and reads and loads the spam file selected.
+        /// Used for iterating through properties of a Spam file.
         /// </summary>
-        public void ReadProperties()
+        /// <param name="propertyReader"></param>
+        /// <returns></returns>
+        private IEnumerable<KeyValuePair<string, string>> ParseProperties(StreamReader propertyReader)
         {
-            if (spamOpenFileDialog.ShowDialog(parentWindow) != DialogResult.OK)
-                return;
+            while (!propertyReader.EndOfStream)
+            {
+                string currentLine = propertyReader.ReadLine();
+                int equalsIndex = currentLine.IndexOf('=');
 
-            StreamReader propertiesReader = new StreamReader(spamOpenFileDialog.FileName);
+                yield return new KeyValuePair<string, string>(
+                    currentLine.Substring(0, equalsIndex),
+                    currentLine.Substring(equalsIndex + 1));
+            }
+        }
+
+        /// <summary>
+        /// Reads and loads properties from the given file.
+        /// </summary>
+        /// <param name="filepath"></param>
+        public void ReadProperties(string filepath)
+        {
+            StreamReader propertiesReader = new StreamReader(filepath);
 
             foreach (KeyValuePair<string, string> property in ParseProperties(propertiesReader))
             {
@@ -257,8 +256,28 @@ namespace SoundSpammer
 
             propertiesReader.Close();
 
-            SavePath = spamOpenFileDialog.FileName;
-            parentWindow.SoundFilePath = spamOpenFileDialog.FileName;
+            SavePath = filepath;
+        }
+
+        /// <summary>
+        /// Shows the spamOpenFileDialog and reads and loads the spam file selected.
+        /// </summary>
+        public void OpenProperties(bool readAsNew = false)
+        {
+            if (spamOpenFileDialog.ShowDialog(parentWindow) != DialogResult.OK)
+                return;
+
+            if (!readAsNew)
+                ReadProperties(spamOpenFileDialog.FileNames[0]);
+
+            MainWindow lastWindow = parentWindow;
+
+            for (int i = readAsNew ? 0 : 1; i < spamOpenFileDialog.FileNames.Length; i++)
+            {
+                MainWindow newWindow = Program.AddWindow(lastWindow);
+                newWindow.ChildPropertiesForm.ReadProperties(spamOpenFileDialog.FileNames[i]);
+                lastWindow = newWindow;
+            }
         }
 
         /// <summary>

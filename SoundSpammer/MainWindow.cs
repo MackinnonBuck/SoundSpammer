@@ -26,11 +26,6 @@ namespace SoundSpammer
         /// The filepath and key for the pressed button image.
         /// </summary>
         private const string IMAGE_BUTTON_PRESSED = "button_pressed.png";
-        
-        /// <summary>
-        /// The properties form that contains customizable settings.
-        /// </summary>
-        private PropertiesForm propertiesForm;
 
         /// <summary>
         /// The hook used to get keyboard input without window focus.
@@ -41,6 +36,15 @@ namespace SoundSpammer
         /// Contains the active MediaPlayers and ensures that a reference is kept until the playback finishes.
         /// </summary>
         List<MediaPlayer> activePlayers;
+
+        /// <summary>
+        /// The properties form that contains customizable settings.
+        /// </summary>
+        public PropertiesForm ChildPropertiesForm
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Returns true if a sound is currently playing.
@@ -100,7 +104,7 @@ namespace SoundSpammer
             spamLabel.Parent = buttonPictureBox;
             spamLabel.Dock = DockStyle.Fill;
 
-            propertiesForm = new PropertiesForm(this);
+            ChildPropertiesForm = new PropertiesForm(this);
 
             globalHook = Hook.GlobalEvents();
             globalHook.KeyDown += GlobalKeyDown;
@@ -119,8 +123,8 @@ namespace SoundSpammer
             MediaPlayer mediaPlayer = new MediaPlayer();
             mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
 
-            mediaPlayer.Open(new Uri(propertiesForm.SoundFilePath));
-            mediaPlayer.Volume = propertiesForm.Volume;
+            mediaPlayer.Open(new Uri(ChildPropertiesForm.SoundFilePath));
+            mediaPlayer.Volume = ChildPropertiesForm.Volume;
             mediaPlayer.Play();
 
             activePlayers.Add(mediaPlayer);
@@ -142,16 +146,16 @@ namespace SoundSpammer
         /// </summary>
         private void ButtonPress()
         {
-            if (propertiesForm.Visible)
+            if (ChildPropertiesForm.Visible)
                 return;
 
             buttonPictureBox.BackgroundImage = buttonImageList.Images[IMAGE_BUTTON_PRESSED];
             
-            if (propertiesForm.SoundFilePath.Length > 0)
+            if (ChildPropertiesForm.SoundFilePath.Length > 0)
             {
                 try
                 {
-                    switch (propertiesForm.RepeatMode)
+                    switch (ChildPropertiesForm.RepeatMode)
                     {
                         case PropertiesForm.SoundRepeatMode.Overlap:
                             StartSound();
@@ -196,7 +200,7 @@ namespace SoundSpammer
         /// <param name="e"></param>
         private void GlobalKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == propertiesForm.Hotkey)
+            if (e.KeyCode == ChildPropertiesForm.Hotkey)
                 ButtonPress();
         }
 
@@ -207,7 +211,7 @@ namespace SoundSpammer
         /// <param name="e"></param>
         private void GlobalKeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == propertiesForm.Hotkey)
+            if (e.KeyCode == ChildPropertiesForm.Hotkey)
                 ButtonRelease();
         }
 
@@ -250,7 +254,7 @@ namespace SoundSpammer
         /// <param name="e"></param>
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Program.AddWindow();
+            Program.AddWindow(this);
         }
 
         /// <summary>
@@ -261,7 +265,7 @@ namespace SoundSpammer
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             StopAllSounds();
-            propertiesForm.ReadProperties();
+            ChildPropertiesForm.OpenProperties();
         }
 
         /// <summary>
@@ -271,8 +275,7 @@ namespace SoundSpammer
         /// <param name="e"></param>
         private void openAsNewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MainWindow newWindow = Program.AddWindow();
-            newWindow.propertiesForm.ReadProperties();
+            ChildPropertiesForm.OpenProperties(true);
         }
 
         /// <summary>
@@ -282,7 +285,7 @@ namespace SoundSpammer
         /// <param name="e"></param>
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            propertiesForm.WriteProperties();
+            ChildPropertiesForm.SaveProperties();
         }
 
         /// <summary>
@@ -292,7 +295,7 @@ namespace SoundSpammer
         /// <param name="e"></param>
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            propertiesForm.WriteProperties(true);
+            ChildPropertiesForm.SaveProperties(true);
         }
 
         /// <summary>
@@ -323,12 +326,32 @@ namespace SoundSpammer
         private void propertiesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             StopAllSounds();
-            propertiesForm.ShowDialog(this);
+            ChildPropertiesForm.ShowDialog(this);
 
-            spamLabel.Text = propertiesForm.ButtonText;
+            spamLabel.Text = ChildPropertiesForm.ButtonText;
 
-            if (propertiesForm.SoundFilePath.Length > 0)
-                SoundFilePath = propertiesForm.SoundFilePath;
+            if (ChildPropertiesForm.SoundFilePath.Length > 0)
+                SoundFilePath = ChildPropertiesForm.SoundFilePath;
+        }
+
+        /// <summary>
+        /// Shows all windows.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void showAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Program.GlobalWindowState = FormWindowState.Normal;
+        }
+
+        /// <summary>
+        /// Minimizes all open windows.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void hideAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Program.GlobalWindowState = FormWindowState.Minimized;
         }
 
         /// <summary>

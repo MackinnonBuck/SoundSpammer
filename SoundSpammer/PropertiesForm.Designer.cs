@@ -245,6 +245,7 @@
             // spamOpenFileDialog
             // 
             this.spamOpenFileDialog.Filter = "Spam Files|*.spam";
+            this.spamOpenFileDialog.Multiselect = true;
             // 
             // PropertiesForm
             // 

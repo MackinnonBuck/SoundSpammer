@@ -9,6 +9,18 @@ namespace SoundSpammer
     static class Program
     {
         /// <summary>
+        /// Used for setting the WindowState of all active windows.
+        /// </summary>
+        public static FormWindowState GlobalWindowState
+        {
+            set
+            {
+                foreach (MainWindow window in activeWindows)
+                    window.WindowState = value;
+            }
+        }
+
+        /// <summary>
         /// Keeps track of every active window.
         /// </summary>
         private static List<MainWindow> activeWindows;
@@ -29,10 +41,17 @@ namespace SoundSpammer
         /// <summary>
         /// Simply shows a new MainWindow instance.
         /// </summary>
-        public static MainWindow AddWindow()
+        public static MainWindow AddWindow(MainWindow relativeWindow)
         {
             MainWindow mainWindow = new MainWindow();
             mainWindow.FormClosed += MainWindow_FormClosed;
+
+            if (relativeWindow != null)
+            {
+                mainWindow.StartPosition = FormStartPosition.Manual;
+                mainWindow.Location = new System.Drawing.Point(relativeWindow.Location.X + 24, relativeWindow.Location.Y + 24);
+            }
+
             mainWindow.Show();
 
             activeWindows.Add(mainWindow);
@@ -50,7 +69,7 @@ namespace SoundSpammer
             Application.SetCompatibleTextRenderingDefault(false);
 
             activeWindows = new List<MainWindow>();
-            AddWindow();
+            AddWindow(null);
 
             Application.Run();
         }
