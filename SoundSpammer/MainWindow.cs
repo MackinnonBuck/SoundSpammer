@@ -126,7 +126,7 @@ namespace SoundSpammer
             mediaPlayer.Open(new Uri(ChildPropertiesForm.SoundFilePath));
             mediaPlayer.Volume = ChildPropertiesForm.Volume;
             mediaPlayer.Play();
-
+            
             activePlayers.Add(mediaPlayer);
         }
 
@@ -349,9 +349,19 @@ namespace SoundSpammer
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void hideAllToolStripMenuItem_Click(object sender, EventArgs e)
+        private void minimizeAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Program.GlobalWindowState = FormWindowState.Minimized;
+        }
+
+        /// <summary>
+        /// Hides all windows and shows an icon in the notification area.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void hideAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Program.WindowsVisible = false;
         }
 
         /// <summary>

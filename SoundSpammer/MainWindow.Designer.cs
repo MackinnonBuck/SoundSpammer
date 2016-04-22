@@ -45,6 +45,9 @@
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.minimizeAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hideResetToolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.resetSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetPropertiesToolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.propertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,8 +56,6 @@
             this.soundPathToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.spamLabel = new System.Windows.Forms.Label();
             this.hideAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hideResetToolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.buttonPictureBox)).BeginInit();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -176,6 +177,7 @@
             // 
             this.editStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.showAllToolStripMenuItem,
+            this.minimizeAllToolStripMenuItem,
             this.hideAllToolStripMenuItem,
             this.hideResetToolStripSeparator,
             this.resetSizeToolStripMenuItem,
@@ -184,6 +186,25 @@
             this.editStripMenuItem.Name = "editStripMenuItem";
             this.editStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editStripMenuItem.Text = "Edit";
+            // 
+            // showAllToolStripMenuItem
+            // 
+            this.showAllToolStripMenuItem.Name = "showAllToolStripMenuItem";
+            this.showAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.showAllToolStripMenuItem.Text = "Show All";
+            this.showAllToolStripMenuItem.Click += new System.EventHandler(this.showAllToolStripMenuItem_Click);
+            // 
+            // minimizeAllToolStripMenuItem
+            // 
+            this.minimizeAllToolStripMenuItem.Name = "minimizeAllToolStripMenuItem";
+            this.minimizeAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.minimizeAllToolStripMenuItem.Text = "Minimize All";
+            this.minimizeAllToolStripMenuItem.Click += new System.EventHandler(this.minimizeAllToolStripMenuItem_Click);
+            // 
+            // hideResetToolStripSeparator
+            // 
+            this.hideResetToolStripSeparator.Name = "hideResetToolStripSeparator";
+            this.hideResetToolStripSeparator.Size = new System.Drawing.Size(149, 6);
             // 
             // resetSizeToolStripMenuItem
             // 
@@ -242,18 +263,6 @@
             this.hideAllToolStripMenuItem.Text = "Hide All";
             this.hideAllToolStripMenuItem.Click += new System.EventHandler(this.hideAllToolStripMenuItem_Click);
             // 
-            // showAllToolStripMenuItem
-            // 
-            this.showAllToolStripMenuItem.Name = "showAllToolStripMenuItem";
-            this.showAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.showAllToolStripMenuItem.Text = "Show All";
-            this.showAllToolStripMenuItem.Click += new System.EventHandler(this.showAllToolStripMenuItem_Click);
-            // 
-            // hideResetToolStripSeparator
-            // 
-            this.hideResetToolStripSeparator.Name = "hideResetToolStripSeparator";
-            this.hideResetToolStripSeparator.Size = new System.Drawing.Size(149, 6);
-            // 
             // MainWindow
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -301,9 +310,10 @@
         private System.Windows.Forms.ToolStripMenuItem closeAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openAsNewToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator resetPropertiesToolStripSeparator;
-        private System.Windows.Forms.ToolStripMenuItem hideAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem minimizeAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator hideResetToolStripSeparator;
+        private System.Windows.Forms.ToolStripMenuItem hideAllToolStripMenuItem;
     }
 }
 
